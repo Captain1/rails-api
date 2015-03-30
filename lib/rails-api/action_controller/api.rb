@@ -123,15 +123,33 @@ module ActionController
     end
 
     MODULES = [
+      AbstractController::Rendering,
+      AbstractController::Translation,
+      AbstractController::AssetPaths,
+
+      Helpers,
       UrlFor,
       Redirecting,
+      ActionView::Layouts,
       Rendering,
       Renderers::All,
       ConditionalGet,
+      EtagWithTemplateDigest,
       RackDelegation,
+      Caching,
+      MimeResponds,
+      ImplicitRender,
+      StrongParameters,
 
+      Cookies,
+      Flash,
+      RequestForgeryProtection,
       ForceSSL,
+      Streaming,
       DataStreaming,
+      HttpAuthentication::Basic::ControllerMethods,
+      HttpAuthentication::Digest::ControllerMethods,
+      HttpAuthentication::Token::ControllerMethods,
 
       # Before callbacks should also be executed the earliest as possible, so
       # also include them at the bottom.
@@ -142,7 +160,11 @@ module ActionController
 
       # Add instrumentations hooks at the bottom, to ensure they instrument
       # all the methods properly.
-      Instrumentation
+      Instrumentation,
+
+      # Params wrapper should come before instrumentation so they are
+      # properly showed in logs
+      ParamsWrapper
     ]
 
     if Rails::VERSION::MAJOR == 5 || (Rails::VERSION::MAJOR == 4 && Rails::VERSION::MINOR > 0)
